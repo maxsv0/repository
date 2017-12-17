@@ -1,0 +1,76 @@
+<?xml version='1.0'?> 
+<document>
+
+<config>
+	<param name="activationUrl" value="*"/>
+	<param name="activationLevel" value="1"/>
+	
+	<api name="import" action="RepositoryImport"/>
+	
+	<constant name="TABLE_REPOSITORY" value="repository"/>
+	<constant name="TABLE_REPOSITORY_KEYS" value="repository_keys"/>
+	<constant name="TABLE_MODULE_DOWNLOADS" value="module_downloads"/>
+	
+	<filter url="*" action="RepositoryLoad"/>
+	<filter url="/rep-build/" action="RepositoryBuild" setpage="/"/>
+	<filter url="/rep/*/" action="RepositoryList" setpage="/"/>
+	<filter url="/rep/*/*" action="RepositoryModule" setpage="/"/>
+	
+	<table name="repository" index="id" title="title">
+		<field name="id" type="id"/>
+		<field name="published" type="published"/>
+		<field name="deleted" type="deleted"/>
+		<field name="author" type="author"/>
+		<field name="updated" type="updated"/>
+		<field name="lang" type="lang"/>
+		<field name="name" type="str"/>
+		<field name="title" type="str"/>
+		<field name="version" type="str"/>
+		<field name="date" type="date"/>
+		<field name="date_build" type="date"/>
+		<field name="description" type="text"/>
+		<field name="source" type="str"/>
+		<field name="archive" type="file"/>
+	</table>
+	<table name="repository_keys" index="id" title="name">
+		<field name="id" type="id"/>
+		<field name="published" type="published"/>
+		<field name="deleted" type="deleted"/>
+		<field name="author" type="author"/>
+		<field name="updated" type="updated"/>
+		<field name="lang" type="lang"/>
+		<field name="name" type="str"/>
+		<field name="key" type="str"/>
+		<field name="description" type="text"/>
+	</table>
+	<table name="module_downloads" index="id" title="module">
+		<field name="id" type="id"/>
+		<field name="published" type="published"/>
+		<field name="deleted" type="deleted"/>
+		<field name="author" type="author"/>
+		<field name="updated" type="updated"/>
+		<field name="lang" type="lang"/>
+		<field name="module" type="str"/>
+		<field name="date" type="date"/>
+		<field name="ip" type="str"/>
+		<field name="ua" type="str"/>
+		<field name="ref" type="str"/>
+	</table>
+</config>
+
+<install>
+	<param name="name" value="repository"/>
+	<param name="version" value="1.0.2"/>
+	<param name="date" value="01.02.2017"/>
+	<param name="title" value="MSV Repository"/>
+	<param name="description" value="Module Manager for MSV"/>
+	
+	<dependency module="msv.core" version="1.0" />
+	
+	<file dir="module" path="repository/repository.php"/>
+	<file dir="module" path="repository/config.xml"/>
+</install>
+
+
+
+</document>
