@@ -7,11 +7,11 @@ function RepositoryImport() {
 		echo "Error: key not found";
 		return false;
 	}
-	
-    $result = API_getDBItem(TABLE_REPOSITORY_KEYS, " `key` = '".MSV_SQLEscape($key)."'");
+
+    $result = db_get(TABLE_REPOSITORY_KEYS, " `key` = '".MSV_SQLEscape($key)."'");
 	if ($result["ok"] && !empty($result["data"])) {
-		
-		$archivePath = MSV_storeFile($_FILES["file"]["tmp_name"], "zip");
+
+		$archivePath = msv_store_file($_FILES["file"]["tmp_name"], "zip");
 		
 		$keyRow = $result["data"];
 		
@@ -23,7 +23,7 @@ function RepositoryImport() {
 	  
 		
 		// check this module in repository before adding
-		$result = API_getDBItem(TABLE_REPOSITORY, " `name` = '".MSV_SQLEscape($moduleName)."'");
+		$result = db_get(TABLE_REPOSITORY, " `name` = '".MSV_SQLEscape($moduleName)."'");
 		if ($result["ok"] && !empty($result["data"])) {
 			$moduleRow = $result["data"];
 			$versionLocal = $moduleRow["version"];
@@ -47,8 +47,8 @@ function RepositoryImport() {
 			"source" => $keyRow["name"],
 			"archive" => $archivePath,
 		);
-		
-		$result = API_itemAdd(TABLE_REPOSITORY, $item, "*");
+
+		$result = db_add(TABLE_REPOSITORY, $item, "*");
 		if ($result["ok"]) {
 			echo "SUCCESS: $moduleName v.$moduleVersion loaded successfully\n";
 			echo "File ID: ".$result["insert_id"];
@@ -67,8 +67,7 @@ function RepositoryImport() {
 function RepositoryLoad() {
 	
 	
-	
-	$resultQuery = API_getDBList(TABLE_REPOSITORY, "", "`name` asc");
+	$resultQuery = db_get_list(TABLE_REPOSITORY, "", "`name` asc");
 	if ($resultQuery["ok"]) {
 		$listItems = array();
 		foreach ($resultQuery["data"] as $item) {
@@ -83,9 +82,9 @@ function RepositoryLoad() {
 			}
 			$listItems[] = $item;
 		}
-		
+
 		// assign data to template
-		MSV_assignData("repository_list", $listItems);
+		msv_assign_data("repository_list", $listItems);
 	}
 	
 	
@@ -109,7 +108,7 @@ function RepositoryModule($module) {
 			"ua" => $_SERVER['HTTP_USER_AGENT'],
 			"ref" => $_SERVER['HTTP_REFERER']
 		);
-		$result = API_itemAdd(TABLE_MODULE_DOWNLOADS, $item);
+		$result = db_add(TABLE_MODULE_DOWNLOADS, $item);
 		
 		// output zip
 		header('Content-Type: application/zip'); 
@@ -132,22 +131,22 @@ function RepositoryModule($module) {
 
 function RepositoryBuild() {
 	
-	MSV_Log("Start RepositoryBuild");
-	MSV_MessageOK("Start RepositoryBuild");
+	msv_log("Start RepositoryBuild");
+	msv_message_ok("Start RepositoryBuild");
 	
-	$modules = MSV_get("website.modules");
+	$modules = msv_get("website.modules");
 	$i = 1;
 	foreach ($modules as $moduleName) {
 		
 		$zipFilename = UPLOAD_FILES_PATH."/repository/".$moduleName.".zip";
 		$zipFileUrl = CONTENT_URL."/repository/".$moduleName.".zip";
 		
-		$obj = MSV_get("website.".$moduleName);
+		$obj = msv_get("website.".$moduleName);
 		if (!empty($obj)) {
 			
 			
 			// check this module in repository before adding
-			$result = API_getDBItem(TABLE_REPOSITORY, " `name` = '".MSV_SQLEscape($moduleName)."'");
+			$result = db_get(TABLE_REPOSITORY, " `name` = '".MSV_SQLEscape($moduleName)."'");
 			if ($result["ok"] && !empty($result["data"])) {
 				$moduleRow = $result["data"];
 				$moduleVersion = $moduleRow["version"];
@@ -158,15 +157,7 @@ function RepositoryBuild() {
 				}
 				
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			$zipFile = tmpfile();
 			$zipArchive = new ZipArchive();
 			
@@ -180,7 +171,7 @@ function RepositoryBuild() {
 				$filePath = $fileInfo["dir"]."/".$fileInfo["path"];
 				
 				if (!file_exists($fileInfo["abs_path"])) {
-					MSV_Error("File not found: $filePath ({$fileInfo["abs_path"]})");
+					msv_error("File not found: $filePath ({$fileInfo["abs_path"]})");
 				}
 				
 				$zipArchive->addFile($fileInfo["abs_path"], $filePath);
@@ -192,11 +183,11 @@ function RepositoryBuild() {
 			
 			file_put_contents($zipFilename, $cont);
 			
-			MSV_Log(($i++).". $moduleName successfully writen to $zipFilename");
+			msv_log(($i++).". $moduleName successfully writen to $zipFilename");
 			
-			MSV_MessageOK("$moduleName OK");
-			
-			//$r = API_deleteDBItem(TABLE_REPOSITORY, "`name` = '".MSV_SQLEscape($moduleName)."'");
+			msv_message_ok("$moduleName OK");
+
+			//$r = db_delete(TABLE_REPOSITORY, "`name` = '".MSV_SQLEscape($moduleName)."'");
 
 			$item = array(
 				"published" => 1,
@@ -210,12 +201,12 @@ function RepositoryBuild() {
 				"archive" => $zipFileUrl,
 			);
 			
-			$result = API_itemAdd(TABLE_REPOSITORY, $item);
+			$result = db_add(TABLE_REPOSITORY, $item);
 		}
 	}
 	
-	MSV_Log("RepositoryBuild done");
-	MSV_MessageOK("Done!");
+	msv_log("RepositoryBuild done");
+	msv_message_ok("Done!");
 }
 
 function RepositoryList($module) {
@@ -256,7 +247,7 @@ function RepositoryList($module) {
 //			}
 
 			
-			$modulesListLocal = MSV_get("website.modules");
+			$modulesListLocal = msv_get("website.modules");
 			
 			foreach ($modulesListLocal as $moduleName) {
 				if ($moduleName === "repository") continue;
@@ -265,7 +256,7 @@ function RepositoryList($module) {
 					$moduleName = substr($moduleName, 1);
 				}
 				
-				$obj = MSV_get("website.".$moduleName);
+				$obj = msv_get("website.".$moduleName);
 
 				$downloadUrl = $module->website->protocol.$module->website->masterhost."/rep/main/".$moduleName."/";
 				
@@ -275,7 +266,7 @@ function RepositoryList($module) {
 				}
 				$strDep = substr($strDep, 0, -1);
 				
-				$resultCount = API_getDBCount("module_downloads", "`module` = '".$moduleName."'");
+				$resultCount = db_get_count("module_downloads", "`module` = '".$moduleName."'");
 				
 				$filesList = array();
 				foreach ($obj->files as $fileInfo) {
