@@ -4,6 +4,8 @@
 <config>
 	<param name="activationUrl" value="*"/>
 	<param name="activationLevel" value="1"/>
+	<param name="adminMenu" value="1"/>
+	<param name="adminMenuOrder" value="1"/>
 	
 	<api name="import" action="RepositoryImport"/>
 	
@@ -60,8 +62,8 @@
 
 <install>
 	<param name="name" value="repository"/>
-	<param name="version" value="1.0.2"/>
-	<param name="date" value="01.02.2017"/>
+	<param name="version" value="1.0.3"/>
+	<param name="date" value="17.12.2017"/>
 	<param name="title" value="MSV Repository"/>
 	<param name="description" value="Module Manager for MSV"/>
 	
@@ -69,6 +71,7 @@
 	
 	<file dir="module" path="repository/repository.php"/>
 	<file dir="module" path="repository/config.xml"/>
+	<file dir="template" path="repository/index.tpl"/>
 </install>
 
 
