@@ -65,8 +65,6 @@ function RepositoryBuild() {
 
             msv_log(($i++).". $moduleName successfully writen to $zipFilename");
 
-            msv_message_ok("$moduleName OK");
-
             $item = array(
                 "published" => 1,
                 "author" => $obj->author,
@@ -85,9 +83,9 @@ function RepositoryBuild() {
 
             $result = msv_add_repository_module($item);
             if ($result["ok"]) {
-                msv_message_ok($result["msg"]);
+                msv_message_ok("Module ".$moduleName.": ".$result["msg"]);
             } else {
-                msv_message_error($result["msg"]);
+                msv_message_error("Module ".$moduleName.": ".$result["msg"]);
             }
         }
     }

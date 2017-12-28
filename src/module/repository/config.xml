@@ -69,6 +69,7 @@
 	<param name="title" value="MSV Repository"/>
 	<param name="description" value="Module Manager for MSV"/>
 	<param name="tags" value="core,repository"/>
+	<param name="preview" value="images/repository/module_preview.jpg"/>
 
 	<dependency module="msv.core" version="1.0" />
 
@@ -79,5 +80,6 @@
 	<file dir="module" path="repository/config.locales.xml"/>
 	<file dir="template" path="repository/index.tpl"/>
 	<file dir="content" path="css/repository.css"/>
+	<file dir="content" path="images/repository/module_preview.jpg"/>
 </install>
 </document>
