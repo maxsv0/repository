@@ -1,23 +1,22 @@
-<?xml version='1.0'?> 
+<?xml version='1.0'?>
 <document>
-
 <config>
 	<param name="activationUrl" value="*"/>
 	<param name="activationLevel" value="1"/>
 	<param name="adminMenu" value="1"/>
 	<param name="adminMenuOrder" value="1"/>
-	
+
 	<api name="import" action="RepositoryImport"/>
-	
+
 	<constant name="TABLE_REPOSITORY" value="repository"/>
 	<constant name="TABLE_REPOSITORY_KEYS" value="repository_keys"/>
 	<constant name="TABLE_MODULE_DOWNLOADS" value="module_downloads"/>
-	
+
 	<filter url="*" action="RepositoryLoad"/>
 	<filter url="/rep-build/" action="RepositoryBuild" setpage="/"/>
 	<filter url="/rep/*/" action="RepositoryList" setpage="/"/>
 	<filter url="/rep/*/*" action="RepositoryModule" setpage="/"/>
-	
+
 	<table name="repository" index="id" title="title">
 		<field name="id" type="id"/>
 		<field name="published" type="published"/>
@@ -25,6 +24,7 @@
 		<field name="author" type="author"/>
 		<field name="updated" type="updated"/>
 		<field name="lang" type="lang"/>
+		<field name="rep" type="str"/>
 		<field name="name" type="str"/>
 		<field name="title" type="str"/>
 		<field name="version" type="str"/>
@@ -66,14 +66,11 @@
 	<param name="date" value="17.12.2017"/>
 	<param name="title" value="MSV Repository"/>
 	<param name="description" value="Module Manager for MSV"/>
-	
+
 	<dependency module="msv.core" version="1.0" />
-	
+
 	<file dir="module" path="repository/repository.php"/>
 	<file dir="module" path="repository/config.xml"/>
 	<file dir="template" path="repository/index.tpl"/>
 </install>
-
-
-
 </document>
