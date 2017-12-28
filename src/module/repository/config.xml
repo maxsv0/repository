@@ -7,6 +7,7 @@
 	<param name="adminMenuOrder" value="1"/>
 
 	<api name="import" action="RepositoryImport"/>
+	<api name="rep" action="RepositoryListModules"/>
 
 	<constant name="TABLE_REPOSITORY" value="repository"/>
 	<constant name="TABLE_REPOSITORY_KEYS" value="repository_keys"/>
@@ -14,8 +15,6 @@
 
 	<filter url="*" action="RepositoryLoad"/>
 	<filter url="/rep-build/" action="RepositoryBuild" setpage="/"/>
-	<filter url="/rep/*/" action="RepositoryList" setpage="/"/>
-	<filter url="/rep/*/*" action="RepositoryModule" setpage="/"/>
 
 	<table name="repository" index="id" title="title">
 		<field name="id" type="id"/>
@@ -33,6 +32,8 @@
 		<field name="description" type="text"/>
 		<field name="source" type="str"/>
 		<field name="archive" type="file"/>
+		<field name="preview" type="pic" max-width="500" max-height="500" />
+		<field name="tags" type="str"/>
 	</table>
 	<table name="repository_keys" index="id" title="name">
 		<field name="id" type="id"/>
@@ -42,6 +43,7 @@
 		<field name="updated" type="updated"/>
 		<field name="lang" type="lang"/>
 		<field name="name" type="str"/>
+		<field name="email" type="str"/>
 		<field name="key" type="str"/>
 		<field name="description" type="text"/>
 	</table>
@@ -66,11 +68,16 @@
 	<param name="date" value="17.12.2017"/>
 	<param name="title" value="MSV Repository"/>
 	<param name="description" value="Module Manager for MSV"/>
+	<param name="tags" value="core,repository"/>
 
 	<dependency module="msv.core" version="1.0" />
 
 	<file dir="module" path="repository/repository.php"/>
+	<file dir="module" path="repository/repository.api.php"/>
+	<file dir="module" path="repository/repository.functions.php"/>
 	<file dir="module" path="repository/config.xml"/>
+	<file dir="module" path="repository/config.locales.xml"/>
 	<file dir="template" path="repository/index.tpl"/>
+	<file dir="content" path="css/repository.css"/>
 </install>
 </document>

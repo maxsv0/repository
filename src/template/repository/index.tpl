@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container content-block">
     <div class="row">
 
         <div class="col-md-12">
@@ -25,20 +25,19 @@
             <table class="table">
 
                 <tr>
-                    <th class="col-sm-2">Preview</th>
+                    <th class="col-sm-1">Preview</th>
                     <th class="col-sm-2">Title</th>
                     <th class="col-sm-1">Version</th>
                     <th class="col-sm-1">Release date</th>
-                    <th class="col-sm-3">Description</th>
+                    <th class="col-sm-4">Description</th>
                     <th class="col-sm-1">Source</td>
                     <th class="col-sm-2">Files</th>
                 </tr>
 
-
                 {foreach from=$repository_list item=module}
 
                     <tr>
-                        <td><img src="{$module.preview}" class="img-responsive"></td>
+                        <td><a href="{$module.preview}" rel="fancybox"><img src="{$module.preview}" class="img-responsive"></a></td>
                         <td>{$module.title}</td>
                         <td>{$module.version}</td>
                         <td>{$module.date|substr:0:11}</td>

@@ -36,6 +36,10 @@ function msv_add_repository_module($row, $options = array()) {
         $result["msg"] = _t("msg.repository.noarchive");
         return $result;
     }
+    if (empty($row["preview"])) {
+        $result["msg"] = _t("msg.repository.nopreview");
+        return $result;
+    }
 
     // set defaults
     if (empty($row["published"])) {
@@ -49,6 +53,7 @@ function msv_add_repository_module($row, $options = array()) {
 
     // set empty fields
     if (empty($row["description"])) $row["description"] = "";
+    if (empty($row["tags"])) $row["tags"] = "";
 
     // check this module in repository before adding
     $resultModule = db_get(TABLE_REPOSITORY, " `rep` = '".db_escape($row["rep"])."' and `name` = '".db_escape($row["name"])."'");
@@ -64,5 +69,67 @@ function msv_add_repository_module($row, $options = array()) {
     }
 
     // add item to repository
-    return $result = db_add(TABLE_REPOSITORY, $row, "*");
+    $result = db_add(TABLE_REPOSITORY, $row, "*");
+    if ($result["ok"]) {
+        $result["msg"] = $row["name"]." v.".$row["version"]." "._t("msg.repository.saved").". ID: ".$result["insert_id"];
+
+        // add blog articles
+        $articleText = "<p>".$row["title"]." v.".$row["version"]." was uploaded by <b>".$row["author"]."</b></p>";
+
+        $itemBlog = array(
+            "sticked" => 0,
+            "email" => "support@sitograph.com",
+            "url" => $row["name"]."-v-".str_replace(".", "-", $row["version"])."-released",
+            "title" => $row["title"]." v.".$row["version"]." released",
+            "description" => $row["description"],
+            "text" => $articleText,
+            "pic" => $row["preview"],
+            "pic_preview" => $row["preview"],
+        );
+        api_blog_add($itemBlog, array("LoadPictures"));
+
+    }
+
+    return $result;
+}
+
+
+function msv_repository_module($repName, $moduleName) {
+
+    if (empty($repName) || empty($moduleName)) {
+        msv_output404();
+    } else {
+        $resultModule = db_get(TABLE_REPOSITORY,"`rep` = '".db_escape($repName)."' and `name` = '".db_escape($moduleName)."'");
+        if (!$resultModule["ok"]) {
+            msv_output404();
+        }
+
+        $fileModule = $resultModule["data"]["archive"];
+        $fileModulePath = UPLOAD_FILES_PATH."/".$fileModule;
+        if (!file_exists($fileModulePath)) {
+            msv_output404();
+        }
+
+        $item = array(
+            "published" => 1,
+            "date" => date("Y-m-d H:i:s"),
+            "module" => $moduleName,
+            "ip" => msv_get_ip(),
+            "ua" => $_SERVER['HTTP_USER_AGENT'],
+            "ref" => $_SERVER['HTTP_REFERER']
+        );
+        $resultView = db_add(TABLE_MODULE_DOWNLOADS, $item);
+
+        // output zip
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="'.basename($fileModule).'"');
+        header('Content-Transfer-Encoding: binary');
+        header('Accept-Ranges: bytes');
+        header('Cache-Control: private');
+        header('Pragma: private');
+        readfile($fileModulePath);
+        exit;
+    }
+
+    msv_output404();
 }

@@ -1,55 +1,5 @@
 <?php
 
-function RepositoryImport() {
-    $key = $_REQUEST["key"];
-
-    if (empty($key)) {
-        echo "Error: key not found";
-        return false;
-    }
-
-    $result = db_get(TABLE_REPOSITORY_KEYS, " `key` = '".db_escape($key)."'");
-    if ($result["ok"] && !empty($result["data"])) {
-
-        $archivePath = msv_store_file($_FILES["file"]["tmp_name"], "zip");
-
-        $fileModulePath = UPLOAD_FILES_PATH."/".$archivePath;
-        $zipFilename = UPLOAD_FILES_PATH."/repository/".$_REQUEST["module"]."-".$_REQUEST["version"].".zip";
-        $archivePath = "repository/".$_REQUEST["module"]."-".$_REQUEST["version"].".zip";
-
-        rename($fileModulePath, $zipFilename);
-
-        $keyRow = $result["data"];
-
-        // add item to repository
-        $item = array(
-            "published" => 1,
-            "rep" => "main",
-            "name" => $_REQUEST["module"],
-            "title" => $_REQUEST["title"],
-            "version" => $_REQUEST["version"],
-            "date" => $_REQUEST["released"],
-            "description" => $_REQUEST["description"],
-            "source" => $keyRow["name"],
-            "archive" => $archivePath,
-        );
-        $result = msv_add_repository_module($item);
-
-        if ($result["ok"]) {
-            echo "SUCCESS: {$_REQUEST["module"]} v.{$_REQUEST["version"]} loaded successfully\n";
-            echo "File ID: ".$result["insert_id"];
-        } else {
-            echo "ERROR: ".$result["msg"];
-        }
-
-        return false;
-
-    }
-
-    echo "ERROR: key not found";
-    return false;
-}
-
 function RepositoryLoad() {
 
 
@@ -60,50 +10,6 @@ function RepositoryLoad() {
     }
 
 
-}
-
-
-function RepositoryModule($module) {
-
-    $repName = $module->website->requestUrlMatch[1];
-    $moduleName = $module->website->requestUrlMatch[2];
-
-    if (empty($repName) || empty($moduleName)) {
-        $module->website->output404();
-    } else {
-        $resultModule = db_get(TABLE_REPOSITORY,"`rep` = '".db_escape($repName)."' and `name` = '".db_escape($moduleName)."'");
-        if (!$resultModule["ok"]) {
-            $module->website->output404();
-        }
-
-        $fileModule = $resultModule["data"]["archive"];
-        $fileModulePath = UPLOAD_FILES_PATH."/".$fileModule;
-        if (!file_exists($fileModulePath)) {
-            $module->website->output404();
-        }
-
-        $item = array(
-            "published" => 1,
-            "date" => date("Y-m-d H:i:s"),
-            "module" => $moduleName,
-            "ip" => msv_get_ip(),
-            "ua" => $_SERVER['HTTP_USER_AGENT'],
-            "ref" => $_SERVER['HTTP_REFERER']
-        );
-        $resultView = db_add(TABLE_MODULE_DOWNLOADS, $item);
-
-        // output zip
-        header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="'.basename($fileModule).'"');
-        header('Content-Transfer-Encoding: binary');
-        header('Accept-Ranges: bytes');
-        header('Cache-Control: private');
-        header('Pragma: private');
-        readfile(UPLOAD_FILES_PATH.$fileModulePath);
-        exit;
-    }
-
-    $module->website->output404();
 }
 
 function RepositoryBuild() {
@@ -119,7 +25,7 @@ function RepositoryBuild() {
         if (!empty($obj)) {
             $versionLocal = $obj->version;
             $zipFilename = UPLOAD_FILES_PATH."/repository/".$moduleName."-".$versionLocal.".zip";
-            $zipFileUrl = CONTENT_URL."/repository/".$moduleName."-".$versionLocal.".zip";
+            $zipFileUrl = "repository/".$moduleName."-".$versionLocal.".zip";
 
             // check this module in repository before adding
             $result = db_get(TABLE_REPOSITORY, "`rep` = 'main' and  `name` = '".db_escape($moduleName)."'");
@@ -163,6 +69,7 @@ function RepositoryBuild() {
 
             $item = array(
                 "published" => 1,
+                "author" => $obj->author,
                 "rep" => "main",
                 "name" => $moduleName,
                 "title" => $obj->title,
@@ -172,6 +79,8 @@ function RepositoryBuild() {
                 "date_build" => date("Y-m-d H:i:s"),
                 "source" => "local",
                 "archive" => $zipFileUrl,
+                "preview" => $obj->preview,
+                "tags" => $obj->tags,
             );
 
             $result = msv_add_repository_module($item);
@@ -190,7 +99,7 @@ function RepositoryBuild() {
 function RepositoryList($module) {
     $repName = $module->website->requestUrlMatch[1];
     if (empty($repName)) {
-        $module->website->output404();
+        msv_output404();
     } else {
         $result = array(
             "ok" => false,
@@ -200,31 +109,6 @@ function RepositoryList($module) {
 
         if ($repName === "main") {
             $modulesList = $modulesListLocal = array();
-
-            // TODO:
-            // load modules from different folder
-            // get modules list
-//			if ($handle = opendir(ABS_ALLMODULES)) {
-//			    while (false !== ($entry = readdir($handle))) {
-//			    	if (strpos($entry, ".") === 0) {
-//			    		continue;
-//			    	}
-//			    	$modulePath = ABS_ALLMODULES."/".$entry;
-//			    	if (!is_dir($modulePath)) {
-//			    		continue;
-//			    	}
-//			    	if (strpos($entry, "-") === 0) {
-//			    		$entry = substr($entry, 1);
-//
-//			    		continue;
-//			    	}
-//			        // add module to list of avaliable modules
-//			       $modulesListLocal[] = $entry;
-//			    }
-//				closedir($handle);
-//			}
-
-
             $modulesListLocal = msv_get("website.modules");
 
             foreach ($modulesListLocal as $moduleName) {

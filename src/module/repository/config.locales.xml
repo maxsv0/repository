@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <locales>
+        <locale name="en">
+            <field name="module.repository" value="MSV Repository"/>
+            <field name="table.repository" value="Repository Modules"/>
+            <field name="table.repository.id" value="ID"/>
+            <field name="table.repository.published" value="Published"/>
+            <field name="table.repository.deleted" value="Deleted"/>
+            <field name="table.repository.author" value="Author"/>
+            <field name="table.repository.updated" value="Updated"/>
+            <field name="table.repository.lang" value="Lang"/>
+            <field name="table.repository.rep" value="Rep"/>
+            <field name="table.repository.name" value="Name"/>
+            <field name="table.repository.title" value="Title"/>
+            <field name="table.repository.version" value="Version"/>
+            <field name="table.repository.date" value="Date"/>
+            <field name="table.repository.date_build" value="Date Build"/>
+            <field name="table.repository.description" value="Desc"/>
+            <field name="table.repository.source" value="Source"/>
+            <field name="table.repository.archive" value="Archive"/>
+            <field name="table.repository.preview" value="Preview"/>
+            <field name="table.repository.tags" value="Tags"/>
+            <field name="table.repository_keys" value="Developer Keys"/>
+            <field name="table.repository_keys.id" value="ID"/>
+            <field name="table.repository_keys.published" value="Published"/>
+            <field name="table.repository_keys.deleted" value="Deleted"/>
+            <field name="table.repository_keys.author" value="Author"/>
+            <field name="table.repository_keys.updated" value="Updated"/>
+            <field name="table.repository_keys.lang" value="Lang"/>
+            <field name="table.repository_keys.name" value="Name"/>
+            <field name="table.repository_keys.email" value="Email"/>
+            <field name="table.repository_keys.key" value="Key"/>
+            <field name="table.repository_keys.description" value="Description"/>
+            <field name="table.module_downloads" value="Module Downloads"/>
+            <field name="table.module_downloads.id" value="ID"/>
+            <field name="table.module_downloads.published" value="Published"/>
+            <field name="table.module_downloads.deleted" value="Deleted"/>
+            <field name="table.module_downloads.author" value="Author"/>
+            <field name="table.module_downloads.updated" value="Updated"/>
+            <field name="table.module_downloads.lang" value="Lang"/>
+            <field name="table.module_downloads.module" value="module"/>
+            <field name="table.module_downloads.date" value="Date"/>
+            <field name="table.module_downloads.ip" value="IP"/>
+            <field name="table.module_downloads.ua" value="UA"/>
+            <field name="table.module_downloads.ref" value="ref"/>
+            <field name="msg.repository.norep" value="Missing field: repository name"/>
+            <field name="msg.repository.noname" value="Missing field: module name"/>
+            <field name="msg.repository.notitle" value="Missing field: module title"/>
+            <field name="msg.repository.noversion" value="Missing field: module version"/>
+            <field name="msg.repository.nodate" value="Missing field: release date"/>
+            <field name="msg.repository.nosource" value="Missing field: source"/>
+            <field name="msg.repository.noarchive" value="Missing field: archive file"/>
+            <field name="msg.repository.nopreview" value="Missing field: preview image"/>
+            <field name="msg.repository.saved" value="uploaded successfully"/>
+        </locale>
+    </locales>
+</document>
