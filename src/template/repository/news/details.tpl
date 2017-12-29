@@ -1,0 +1,1 @@
+{include file="$themeDefaultPath/blog/details.tpl"}

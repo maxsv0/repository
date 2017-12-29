@@ -22,7 +22,7 @@
             {include file="$themeDefaultPath/widget/messages.tpl"}
 
 
-            <table class="table">
+            <table class="table table-hover">
 
                 <tr>
                     <th class="col-sm-1">Preview</th>

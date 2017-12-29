@@ -32,6 +32,8 @@ function RepositoryListModules($module) {
                             "download_url" => $downloadUrl,
                         );
                     }
+
+                    $resultQuery["data"] = $moduleList;
                 }
             }
             break;
