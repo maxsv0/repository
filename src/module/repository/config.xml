@@ -34,6 +34,7 @@
 		<field name="archive" type="file"/>
 		<field name="preview" type="pic" max-width="500" max-height="500" />
 		<field name="tags" type="str"/>
+		<field name="files" type="array"/>
 	</table>
 	<table name="repository_keys" index="id" title="name">
 		<field name="id" type="id"/>
@@ -64,8 +65,8 @@
 
 <install>
 	<param name="name" value="repository"/>
-	<param name="version" value="1.0.3"/>
-	<param name="date" value="17.12.2017"/>
+	<param name="version" value="1.0.4"/>
+	<param name="date" value="29.12.2017"/>
 	<param name="title" value="MSV Repository"/>
 	<param name="description" value="Module Manager for MSV"/>
 	<param name="tags" value="core,repository"/>
@@ -79,6 +80,10 @@
 	<file dir="module" path="repository/config.xml"/>
 	<file dir="module" path="repository/config.locales.xml"/>
 	<file dir="template" path="repository/index.tpl"/>
+	<file dir="template" path="repository/news.tpl"/>
+	<file dir="template" path="repository/widget/sideblock.tpl"/>
+	<file dir="template" path="repository/news/list.tpl"/>
+	<file dir="template" path="repository/news/details.tpl"/>
 	<file dir="content" path="css/repository.css"/>
 	<file dir="content" path="images/repository/module_preview.jpg"/>
 </install>

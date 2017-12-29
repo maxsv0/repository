@@ -36,6 +36,10 @@ function msv_add_repository_module($row, $options = array()) {
         $result["msg"] = _t("msg.repository.noarchive");
         return $result;
     }
+    if (empty($row["files"])) {
+        $result["msg"] = _t("msg.repository.nofiles");
+        return $result;
+    }
     if (empty($row["preview"])) {
         $result["msg"] = _t("msg.repository.nopreview");
         return $result;

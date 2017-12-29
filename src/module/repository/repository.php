@@ -65,6 +65,14 @@ function RepositoryBuild() {
 
             msv_log(($i++).". $moduleName successfully writen to $zipFilename");
 
+            $filesList = array();
+            foreach ($obj->files as $fileInfo) {
+                $filesList[] = array(
+                    "dir" => $fileInfo["dir"],
+                    "path" => $fileInfo["path"]
+                );
+            }
+
             $item = array(
                 "published" => 1,
                 "author" => $obj->author,
@@ -79,6 +87,7 @@ function RepositoryBuild() {
                 "archive" => $zipFileUrl,
                 "preview" => $obj->preview,
                 "tags" => $obj->tags,
+                "files" => $filesList,
             );
 
             $result = msv_add_repository_module($item);

@@ -21,7 +21,7 @@ function RepositoryListModules($module) {
                     $moduleList = array();
 
                     foreach ($resultQuery["data"] as $module) {
-                        $downloadUrl = PROTOCOL.HOST."/rep/main/".$module["name"]."/";
+                        $downloadUrl = PROTOCOL.HOST."/api/rep/main/".$module["name"]."/";
 
                         $moduleList[$module["name"]] = array(
                             "name" => $module["name"],

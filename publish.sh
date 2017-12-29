@@ -75,13 +75,23 @@ cd src-temp
 zip -r ../archive.zip .
 cd ..
 
+echo "#file list">filelist.txt
+echo "#module">>filelist.txt
+find src-temp/module -type f -regex "^.*$">>filelist.txt
+echo "#content">>filelist.txt
+find src-temp/content -type f -regex "^.*$">>filelist.txt
+echo "#template">>filelist.txt
+find src-temp/template -type f -regex "^.*$">>filelist.txt
+
+
 echo "Sending file to repository.."
-curl -F "file=@archive.zip"  -F "preview=@preview.jpg" -F "module=$1" -F "key=$2" -F "title=$3" -F "version=$4" -F "released=$5" -F "description=$6"  -F "tags=$7" http://rep.msvhost.com/api/import/
+curl -F "file=@archive.zip"  -F "preview=@preview.jpg"  -F "filelist=@filelist.txt"  -F "module=$1" -F "key=$2" -F "title=$3" -F "version=$4" -F "released=$5" -F "description=$6"  -F "tags=$7" http://rep.msvhost.com/api/import/
 echo "Done!"
 
 echo "Removing temp files.."
 rm -R src-temp
 rm archive.zip
+rm filelist.txt
 echo "Done!"
 
 exit 0
