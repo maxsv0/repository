@@ -30,6 +30,7 @@ function RepositoryListModules($module) {
                             "date" => $module["date"],
                             "version" => $module["version"],
                             "download_url" => $downloadUrl,
+                            "files" => $module["files"],
                         );
                     }
 
@@ -45,6 +46,9 @@ function RepositoryListModules($module) {
             );
             break;
     }
+
+    // do not output sql for security reasons
+    unset($resultQuery["sql"]);
 
     // output result as JSON
     return json_encode($resultQuery);
