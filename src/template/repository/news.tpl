@@ -1,4 +1,4 @@
-{include file="$themeDefaultPath/widget/header.tpl"}
+{include file="$themeDefaultPath/widget/header.tpl" themePath=$themeDefaultPath}
 
 <div class="container top-menu">
     <div class="row">
@@ -34,4 +34,4 @@
 </div>
 
 
-{include file="$themeDefaultPath/widget/footer.tpl"}
+{include file="$themeDefaultPath/widget/footer.tpl" themePath=$themeDefaultPath}
