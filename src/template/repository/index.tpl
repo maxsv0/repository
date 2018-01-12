@@ -36,7 +36,7 @@
 
                 {foreach from=$repository_list item=module}
 
-                    <tr>
+                    <tr class="module-block">
                         <td><a href="{$module.preview}" rel="fancybox"><img src="{$module.preview}" class="img-responsive"></a></td>
                         <td>{$module.title}</td>
                         <td>{$module.version}</td>
