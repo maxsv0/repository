@@ -31,6 +31,7 @@ function RepositoryListModules($module) {
                             "version" => $module["version"],
                             "download_url" => $downloadUrl,
                             "files" => $module["files"],
+                            "tags" => $module["tags"],
                         );
                     }
 
@@ -67,6 +68,10 @@ function RepositoryImport() {
         $module = $_REQUEST["module"];
         // TODO:
         // clean $module
+
+        // TODO process filelist
+        var_dump($_REQUEST["filelist"]);
+
 
         $archivePath = msv_store_file($_FILES["file"]["tmp_name"], "zip");
         $previewPath = msv_store_pic($_FILES["preview"]["tmp_name"], "jpg","module_preview_".$module, TABLE_REPOSITORY,"preview" );

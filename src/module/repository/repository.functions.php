@@ -36,7 +36,7 @@ function msv_add_repository_module($row, $options = array()) {
         $result["msg"] = _t("msg.repository.noarchive");
         return $result;
     }
-    if (empty($row["files"])) {
+    if (empty($row["files"]) || !is_array($row["files"])) {
         $result["msg"] = _t("msg.repository.nofiles");
         return $result;
     }
@@ -79,6 +79,27 @@ function msv_add_repository_module($row, $options = array()) {
 
         // add blog articles
         $articleText = "<p>".$row["title"]." v.".$row["version"]." was uploaded by <b>".$row["author"]."</b></p>";
+        $articleText .= "<h4>Files list:</h4>";
+        $articleText .= "<div class='well'>";
+        foreach ($row["files"] as $fileInfo) {
+            if ($fileInfo["dir"] === "abs") {
+                $local_path = $fileInfo["path"];
+            } elseif ($fileInfo["dir"] === "include") {
+                $local_path = LOCAL_INCLUDE."/".$fileInfo["path"];
+            } elseif ($fileInfo["dir"] === "module") {
+                $local_path = LOCAL_MODULE."/".$fileInfo["path"];
+            } elseif ($fileInfo["dir"] === "template") {
+                $local_path = LOCAL_TEMPLATE."/".$fileInfo["path"];
+            } elseif ($fileInfo["dir"] === "content") {
+                $local_path = CONTENT_URL."/".$fileInfo["path"];
+            }
+            if (substr($local_path, 0, 1) === "/") {
+                $local_path = substr($local_path, 1);
+            }
+
+            $articleText .= "<p>".$local_path."</p>";
+        }
+        $articleText .= "</div>";
 
         $itemBlog = array(
             "sticked" => 0,

@@ -8,13 +8,13 @@
 
 	<api name="import" action="RepositoryImport"/>
 	<api name="rep" action="RepositoryListModules"/>
+	<api name="build" action="RepositoryBuild"/>
 
 	<constant name="TABLE_REPOSITORY" value="repository"/>
 	<constant name="TABLE_REPOSITORY_KEYS" value="repository_keys"/>
 	<constant name="TABLE_MODULE_DOWNLOADS" value="module_downloads"/>
 
 	<filter url="*" action="RepositoryLoad"/>
-	<filter url="/rep-build/" action="RepositoryBuild" setpage="/"/>
 
 	<table name="repository" index="id" title="title">
 		<field name="id" type="id"/>
@@ -62,29 +62,4 @@
 		<field name="ref" type="str"/>
 	</table>
 </config>
-
-<install>
-	<param name="name" value="repository"/>
-	<param name="version" value="1.0.4"/>
-	<param name="date" value="29.12.2017"/>
-	<param name="title" value="MSV Repository"/>
-	<param name="description" value="Module Manager for MSV"/>
-	<param name="tags" value="core,repository"/>
-	<param name="preview" value="images/repository/module_preview.jpg"/>
-
-	<dependency module="msv.core" version="1.0" />
-
-	<file dir="module" path="repository/repository.php"/>
-	<file dir="module" path="repository/repository.api.php"/>
-	<file dir="module" path="repository/repository.functions.php"/>
-	<file dir="module" path="repository/config.xml"/>
-	<file dir="module" path="repository/config.locales.xml"/>
-	<file dir="template" path="repository/index.tpl"/>
-	<file dir="template" path="repository/news.tpl"/>
-	<file dir="template" path="repository/widget/sideblock.tpl"/>
-	<file dir="template" path="repository/news/list.tpl"/>
-	<file dir="template" path="repository/news/details.tpl"/>
-	<file dir="content" path="css/repository.css"/>
-	<file dir="content" path="images/repository/module_preview.jpg"/>
-</install>
 </document>

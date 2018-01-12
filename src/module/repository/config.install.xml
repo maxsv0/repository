@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<document>
+    <install>
+        <param name="name" value="repository"/>
+        <param name="version" value="1.0.5"/>
+        <param name="date" value="12.01.2018"/>
+        <param name="title" value="MSV Repository"/>
+        <param name="description" value="Module Manager for MSV"/>
+        <param name="tags" value="kernel,repository"/>
+        <param name="preview" value="images/repository/module_preview.jpg"/>
+
+        <dependency module="msv.core" version="1.0" />
+
+        <file dir="module" path="repository/repository.php"/>
+        <file dir="module" path="repository/repository.api.php"/>
+        <file dir="module" path="repository/repository.functions.php"/>
+        <file dir="module" path="repository/config.xml"/>
+        <file dir="module" path="repository/config.locales.xml"/>
+        <file dir="module" path="repository/config.install.xml"/>
+        <file dir="template" path="repository/index.tpl"/>
+        <file dir="template" path="repository/news.tpl"/>
+        <file dir="template" path="repository/feedback.tpl"/>
+        <file dir="template" path="repository/widget/sideblock.tpl"/>
+        <file dir="template" path="repository/news/list.tpl"/>
+        <file dir="template" path="repository/news/details.tpl"/>
+        <file dir="template" path="repository/feedback/main.tpl"/>
+        <file dir="content" path="css/repository.css"/>
+        <file dir="content" path="images/repository/module_preview.jpg"/>
+    </install>
+</document>
