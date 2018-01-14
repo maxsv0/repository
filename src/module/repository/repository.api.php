@@ -28,6 +28,7 @@ function RepositoryListModules($module) {
                             "title" => $module["title"],
                             "description" => $module["description"],
                             "date" => $module["date"],
+                            "preview" => $module["preview"],
                             "version" => $module["version"],
                             "download_url" => $downloadUrl,
                             "files" => $module["files"],
