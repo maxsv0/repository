@@ -1,12 +1,12 @@
-{include file="$themePath/widget/header.tpl"}
+{include file="$themeDefaultPath/widget/header.tpl" themePath=$themeDefaultPath}
 
 <div class="container top-menu">
     <div class="row">
-        {include file="$themePath/widget/menu-top.tpl"}
+        {include file="$themeDefaultPath/widget/menu-top.tpl"}
     </div>
 </div>
 
-{include file="$themePath/widget/navigation.tpl"}
+{include file="$themeDefaultPath/widget/navigation.tpl"}
 
 <div class="container">
     <div class="row content-block">
@@ -18,7 +18,7 @@
             {$document.text}
         </div>
         <div class="col-sm-7">
-            {include file="$themePath/widget/messages.tpl"}
+            {include file="$themeDefaultPath/widget/messages.tpl"}
 
             {include file="$themePath/feedback/main.tpl"}
         </div>
@@ -26,4 +26,4 @@
 </div>
 
 
-{include file="$themePath/widget/footer.tpl"}
+{include file="$themeDefaultPath/widget/footer.tpl" themePath=$themeDefaultPath}
