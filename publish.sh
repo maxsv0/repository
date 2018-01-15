@@ -1,97 +1,64 @@
 #!/bin/bash
+#
+# Module publishing tool for MSV Repository
+#
+# Module publishing settings:
+#   repositoryurl   - Repository URL. Default value: http://rep.msvhost.com/api/import/
+#   repositorykey   - is your developer key for accessing the repository. Default value: $1
+#                     NOTE! Do not hardcode repositorykey value. It can cause security issues.
+#   modulename      - is current module name. Default value: $2
+#   configinstall   - is a path to config.install.xml or config.xml of a current module
+#   previewfile     - is a path to module preview
+#
+#   ************* More information can be found here https://github.com/maxsv0/repository *************
+#
+repositoryurl=http://rep.msvhost.com/api/import/
+modulename=$1
+repositorykey=$2
+configinstall=src/module/$modulename/config.install.xml
+previewfile=src/content/images/module_preview_repository.jpg
 
-if [ -z "$1" ]
+if [ -z "$modulename" ]
   then
-    echo "Missing field: Module name"
+    echo "[ERROR] Missing Module name"
 	exit 0
 fi
-
-
-if [ -z "$2" ]
-  then
-    echo "Missing field: repository KEY"
-	exit 0
-fi
-
-
-if [ -z "$3" ]
-  then
-    echo "Missing field: Module Title"
-	exit 0
-fi
-
-
-if [ -z "$4" ]
-  then
-    echo "Missing field: Module Version"
-	exit 0
-fi
-
-
-if [ -z "$5" ]
-  then
-    echo "Missing field: Released Date"
-	exit 0
-fi
-
-
-if [ -z "$6" ]
-  then
-    echo "Missing field: Description"
-	exit 0
-fi
-
-
-if [ -z "$7" ]
-  then
-    echo "Missing field: Tags"
-	exit 0
-fi
-
-
-if [ ! -f preview.jpg ];
-	then
-      echo "'preview.jpg' not found"
-	  exit 0
-fi
-
-
-echo "Publish to  to MSV repository: rep.msvhost.com"
-
-echo "========> $1 (key :  $2)"
-echo "Title: $3"
-echo "Version: $4"
-echo "Date: $5"
-echo "Description: $6"
-echo "Tags: $7"
-echo "======================="
 
 mkdir src-temp
 cp -a src/. src-temp
 find src-temp/ -name .DS_Store -delete
 
-echo "Creating archive.zip.."
+echo "Creating $modulename.zip.."
 cd src-temp
-zip -r ../archive.zip .
+zip -r ../$modulename.zip .
 cd ..
-
-echo "#file list">filelist.txt
-echo "#module">>filelist.txt
-find src-temp/module -type f -regex "^.*$">>filelist.txt
-echo "#content">>filelist.txt
-find src-temp/content -type f -regex "^.*$">>filelist.txt
-echo "#template">>filelist.txt
-find src-temp/template -type f -regex "^.*$">>filelist.txt
-
-
-echo "Sending file to repository.."
-curl -F "file=@archive.zip"  -F "preview=@preview.jpg"  -F "filelist=@filelist.txt"  -F "module=$1" -F "key=$2" -F "title=$3" -F "version=$4" -F "released=$5" -F "description=$6"  -F "tags=$7" http://rep.msvhost.com/api/import/
-echo "Done!"
 
 echo "Removing temp files.."
 rm -R src-temp
-rm archive.zip
-rm filelist.txt
-echo "Done!"
+echo "Done! $modulename.zip created successfully"
 
+echo "=============================================="
+echo "Publish archive to MSV repository: $repositoryurl"
+
+if [ -z "$repositorykey" ]
+  then
+    echo "[ERROR] Missing repository KEY"
+	exit 0
+fi
+
+if [ ! -f $configinstall ]
+  then
+    echo "[ERROR] Missing installation config file: $configinstall"
+	exit 0
+fi
+
+if [ ! -f $previewfile ];
+	then
+      echo "[ERROR] Preview file $previewfile was not found"
+	  exit 0
+fi
+
+echo "========> Module: $modulename (key :  $repositorykey)"
+echo "Sending file to repository.."
+curl -F "file=@$modulename.zip" -F "preview=@$previewfile" -F "config=@$configinstall" -F "module=$modulename" -F "key=$repositorykey" $repositoryurl
 exit 0

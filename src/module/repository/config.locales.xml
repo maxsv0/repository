@@ -21,6 +21,7 @@
             <field name="table.repository.archive" value="Archive"/>
             <field name="table.repository.preview" value="Preview"/>
             <field name="table.repository.tags" value="Tags"/>
+            <field name="table.repository.files" value="List of files"/>
             <field name="table.repository_keys" value="Developer Keys"/>
             <field name="table.repository_keys.id" value="ID"/>
             <field name="table.repository_keys.published" value="Published"/>
@@ -52,6 +53,7 @@
             <field name="msg.repository.nosource" value="Missing field: source"/>
             <field name="msg.repository.noarchive" value="Missing field: archive file"/>
             <field name="msg.repository.nopreview" value="Missing field: preview image"/>
+            <field name="msg.repository.nofiles" value="Missing list of files"/>
             <field name="msg.repository.saved" value="uploaded successfully"/>
         </locale>
     </locales>

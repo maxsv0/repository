@@ -64,8 +64,8 @@ function msv_add_repository_module($row, $options = array()) {
     if ($resultModule["ok"] && !empty($resultModule["data"])) {
         $versionLocal = $resultModule["data"]["version"];
 
-        if (version_compare($versionLocal, $row["version"]) > 0) {
-            $result["msg"] = "ERROR: local version $versionLocal, can't update to ".$row["version"];
+        if (version_compare($versionLocal, $row["version"]) >= 0) {
+            $result["msg"] = "Local version $versionLocal, can't update to ".$row["version"];
             return $result;
         }
 
@@ -79,7 +79,7 @@ function msv_add_repository_module($row, $options = array()) {
 
         // add blog articles
         $articleText = "<p>".$row["title"]." v.".$row["version"]." was uploaded by <b>".$row["author"]."</b></p>";
-        $articleText .= "<h4>Files list:</h4>";
+        $articleText .= "<h4>List of the:</h4>";
         $articleText .= "<div class='well'>";
         foreach ($row["files"] as $fileInfo) {
             if ($fileInfo["dir"] === "abs") {
