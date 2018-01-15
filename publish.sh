@@ -61,4 +61,6 @@ fi
 echo "========> Module: $modulename (key :  $repositorykey)"
 echo "Sending file to repository.."
 curl -F "file=@$modulename.zip" -F "preview=@$previewfile" -F "config=@$configinstall" -F "module=$modulename" -F "key=$repositorykey" $repositoryurl
+
+rm $modulename.zip
 exit 0
