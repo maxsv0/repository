@@ -79,7 +79,7 @@ function msv_add_repository_module($row, $options = array()) {
 
         // add blog articles
         $articleText = "<p>".$row["title"]." v.".$row["version"]." was uploaded by <b>".$row["author"]."</b></p>";
-        $articleText .= "<h4>List of the:</h4>";
+        $articleText .= "<h4>List of files:</h4>";
         $articleText .= "<div class='well'>";
         foreach ($row["files"] as $fileInfo) {
             if ($fileInfo["dir"] === "abs") {
